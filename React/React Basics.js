@@ -188,6 +188,27 @@ fn : fn
 item1.fn(); //?
 item2.fn(); //?
 
+//4. TemplateString 模板字符串   -- backtick ``
+// 现在写法更为简单 :  `string text ${expression 运算}`
+function hello(a,b)
+{
+console.log(`Fifteen is ${a + b} and not ${2 * a + b}.`);
+}
+
+hello(1,2)
+
+
+// 等价于
+function hello(a,b){
+console.log('Fifteen is ' + (a + b) + ' and not ' + (2 * a + b) + '.');
+};
+
+hello(1,2)  //"Fifteen is 3 and not 4."
+
+
+
+
+
 
 // 其他
 
