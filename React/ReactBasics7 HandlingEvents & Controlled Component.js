@@ -92,7 +92,7 @@ class NameForm extends React.Component
   constructor(props)
   {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: ''};   //现在 value 空字符串
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -100,7 +100,7 @@ class NameForm extends React.Component
 
 
   handleChange(event) {
-    this.setState({value: event.target.value});
+    this.setState({value: event.target.value});  // 
   }
 
   handleSubmit(event) {
@@ -112,7 +112,7 @@ class NameForm extends React.Component
     return (
       <form onSubmit={this.handleSubmit}>
         <label>Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.value} onChange={this.handleChange} />  // react来handle  form 表单中value 的值
         </label>
         <input type="submit" value="Submit" />
       </form>
