@@ -25,12 +25,12 @@ class Clock extends React.Component {
 
 // 1.2 加 State
 
-// 1. Add constructor() {super(),  this.state = { ???? }  } 
+// 1. Add constructor(props) {super(props),  this.state = { ???? }  } 
 // 2. this.props.date 变为this.state.date
 
 class Clock extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {date: new Date()};
   }
  
