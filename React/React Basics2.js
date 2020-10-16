@@ -44,6 +44,11 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+· 1
+· 2
+· 3
+· 4
+· 5
 
 // 对于element 这个component h1是type， props 参数 property 内容 叫 children
 
