@@ -71,3 +71,66 @@ ReactDOM.render(
   <ExampleFunc />,
   document.getElementById('root')
 );
+
+  
+
+//1。4 Effect Hook
+function ExampleEffectHook ()
+{
+  const [count, setCount] = React.useState(1);
+
+  React.useEffect(  ()=> {console.log('call some Api with'+ count)  });
+  return (
+
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick = { ()=> setCount(count+1)}>Click me</button>
+    </div>
+  );
+  
+}
+
+
+ReactDOM.render(
+  <ExampleEffectHook/>,
+  document.getElementById('root')
+);
+
+
+
+//1。5 Effect Hook with Clean Up
+
+// render 返回之后 再mount
+function Example()
+{
+  const [display, setDisplay] = React.useState(false);
+
+  return (
+    
+    <div>
+          {display && <Child />}  // 条件渲染
+          <button onClick={() => setDisplay(!display)}>Toggle
+          </button>
+    </div>
+
+    
+  )
+
+  
+}
+funtion Child()
+{
+  React.useEffect(  ()=>{console.log('did Mount or Update');
+  }  )
+
+  return () =>{ console.log('will unmount')}
+
+  return (
+   <div>child
+   </div>
+  );
+
+}
+
+
+
