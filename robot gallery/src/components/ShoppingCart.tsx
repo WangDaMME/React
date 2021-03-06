@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from "./ShoppingCart.module.css";
-import {FiShoppingCart} from "react-icons/fi"
+import {FiShoppingCart} from "react-icons/fi";
+import {appContext} from "../AppState";
+
 
 // typescript 变量名  和 类型定义
 // State 下拉菜单 自己的状态
@@ -46,25 +48,35 @@ class ShoppingCart extends React.Component<Props,State>
 
     }
 
+    // 类组件 不能使用useContext 只能用Consumer  return 模型
     render()
     {
         return (
-            <div className = {styles.cartContainer}>
+            
+            <appContext.Consumer>{ (value)=>{
+                
+                return (
+                    <div className = {styles.cartContainer}>
                 <button className={styles.button} style ={{fontSize:40}}
                 onClick = {this.handleClick}>
                     <FiShoppingCart/>
-                    <span>Cart Items 2</span>
+                    <span>Cart Items : {value.shoppingCart.items.length} (items)</span>
                     </button>
                 <div className={styles.cartDropDown}
                     style={ {
                         display: this.state.isOpen ? "block": "none",
                     }}>
-                    <ul>
-                        <li> robot1 </li>
-                        <li> robot2 </li>
-                    </ul>
-                </div>
-            </div>
+                            <ul>
+                                {value.shoppingCart.items.map(i => <li> {i.name} </li>)}
+                            </ul>
+                        </div>
+                     </div>
+                )
+                
+            }}
+            </appContext.Consumer>
+
+            
 
 
         )
