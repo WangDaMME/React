@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+    
+    window.onload = function(){
+
+        class Person
+        {
+            constructor (name, age)
+            {
+                this.name = name ;
+                this.age = age ;
+            }
+        
+            //在类的原型对象 prototype里，供实例使用
+            // 通过Oerson 实例调用 study 时， study 中的this 就是 Person的实例
+            study() 
+            {
+                console.log(this)
+            }
+        }
+
+        const p1 = new Person("a",1)
+        p1.study() // 通过 实例 调用speak 方法  -- 这属于实例调用
+
+        const x = p1.study ; // study 在prototype里 ，顺着p1找 把 study函数属性 交给x
+
+        x(); //相比p1.study() 这是 直接调用 跟实例没关系
+        //？ 为什么 console.log 出来undefined 呢？
+        //   类中 所有定义的方法 在局部都开起了 'use strict'严格模式， 类帮你自动开的，跟babel没关系， 不指向 window
+    }
+
+
+    function demo(){
+        'use strict'
+        console.log(this) // window, 开启严格模式 
+    }
+    demo()
+    
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
