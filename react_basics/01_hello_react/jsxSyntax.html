@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+    <style type="text/css">
+        .title { /*类属性 */
+            background-color: skyblue;
+        }
+        
+    
+    </style>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test"></div>  <!-- 必须要有容器 dom 元素节点 -->
+     
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> /* 此处一定要写babel */
+    
+        const myID = "id1";
+        const myContent = "HeLlO, rEaCt";
+
+        //1. 创建虚拟dom
+        const VDOM =(  
+            // 整体 规则2.引用变量 
+            // css 不是 jsx 不用{} 直接用“” 即可 
+
+            //根标签只能有一个
+            <>
+                <h2 id = {myID}  className = "title">  
+                    
+                
+                    <span style={{
+                        //而且要写成 value 写成字符串形式 ， key 无所谓 当成var了,否则报错 
+                        color:'white', 
+                        fontSize:'20px'}}>{myContent.toLocaleLowerCase()}</span>
+
+                </h2>
+                <input>你好</input>
+            </>
+
+        )
+        //2. 渲染虚拟dom 到页面;  render（渲染的虚拟dom ， 渲染到 哪个容器） src, dst
+        ReactDOM.render(VDOM, document.getElementById('test')); //react 没有选择器
+        
+
+        /** jsx 语法规则 
+         *      1.定于virutal dom 时候 不要写引号
+         *      2. 标签里 如果 想用js 表达式，需  { } ; 引用（eg. 变量）
+         *      3. jsx中， 如果 想用 样式 class类名，需  className ; class 是关键字
+         *      4. 样式
+         *          内敛里：- 连字符： 写成小驼峰形式 eg.font-size : 改成fontSize
+         *          内敛样式： 双花括号 
+         *      而且要写成 value 写成字符串形式 ， key 无所谓 当成var了
+                否则报错 
+                5.jsx 要求，根标签 只能有一个
+                6.自定义标签
+                    小写的标签， 这里语法是 jsx --》 转化为 html标签，转换不了 相应的html 
+                    首字母大写， 会转化为组件， 若组件没定义 报错
+         * 
+         * **/
+
+
+    
+    </script>
+
+</body>
+</html>
