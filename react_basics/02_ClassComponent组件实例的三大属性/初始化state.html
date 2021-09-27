@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test"></div>  <!-- 必须要有容器 dom 元素节点 -->
+     
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+        /**
+         * 1. 想办法 把一个state 放到组件实例对象三大属性里 的state -->放到构造器里'
+         * 2. 通过一些办法 动态的 改变 state
+         * **/
+       class Weather extends React.Component 
+       {
+            // 构造器
+            constructor(props) //三大属性2
+            {
+                super(props)
+                console.log(this)
+                this.state = {
+                    isHot: true
+                } // react 官方建议写成对象形式
+            };
+
+          
+
+            // 必有render
+            render(){
+                
+                // 可以 destructing 一下
+                // const {isHot} = state.isHot;
+
+                // 函数声明
+                return <h1 onClick = {demo}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'}  </h1>
+            }
+
+       } 
+
+       
+        ReactDOM.render(<Weather/>, document.getElementById("test"))
+
+        //对title 绑定点击事件
+        function demo(){  // 不在类组件里
+
+        console.log("标题被点击了");
+        };
+
+
+         //渲染组件到页面
+    </script>
+
+</body>
+</html>
