@@ -33,6 +33,19 @@
                 this.state = {
                     isHot: true
                 } // react 官方建议写成对象形式
+
+                // 右边： this 是组件的实例对象， changeweather 放在了prototype 上，
+                // bind（）干2件事， 1. 帮你生成新的函数 2. 帮你改了this
+                // 把返回的函数 放到了实例自身，并起了个名 为changeWeather 函数属性
+                // 这样 下面再调用 就是 挂在实例自身上的changeWeather 不是 原型上的
+
+
+                //		所以， 实例自身也有该函数，原型上也有同名(只是同名) 该函数，就近 已经找到了 就不往原型链里看了
+
+                // 问2.如果改名为 demo 下面也相应改为demo 因为 通过原型 中的函数bind 再创建的函数 挂载到 this 不改还是 得去原型链中找
+                // this.demo = this.changeWeather.bind（this） 下面调用也改成 this.demo
+                this.changeWeather = this.changeWeather.bind(this);
+                
             };
 
             // changeWeather 放在Weather 的原型上 , 供实例使用
