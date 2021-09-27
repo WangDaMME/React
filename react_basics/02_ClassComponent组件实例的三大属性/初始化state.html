@@ -35,7 +35,14 @@
                 } // react 官方建议写成对象形式
             };
 
-          
+            // changeWeather 放在Weather 的原型上 , 供实例使用
+            // 通过Weather 实例调用changeWeather时候， changeWeather 中的this就是Weather 的实例
+            changeWeather(){
+
+                // 由于changewether是作为onClick 的回调, 所以不是通过实例 调用的，而是直接调用的
+                // 类中的方法 默认开启了局部的严格模式， 所以changeWeather 中的this 是undefined
+                console.log(this);
+            }
 
             // 必有render
             render(){
@@ -44,7 +51,10 @@
                 // const {isHot} = state.isHot;
 
                 // 函数声明
-                return <h1 onClick = {demo}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'}  </h1>
+
+                // this.changeWeather 报错原因 见复习 “类中this的方法”， 同理 this.changewweather 顺着原型链找到 这个方法， 交给onclick 作为回调
+                // 点击的时候  是直接调用， 根本就不是 实例对象
+                return <h1 onClick = {this.changeWeather}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'}  </h1>
             }
 
        } 
