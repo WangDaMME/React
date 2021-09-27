@@ -26,12 +26,14 @@
        class Weather extends React.Component 
        {
             // 构造器
+            // 构造器调用几次？ --- 1次
             constructor(props) //三大属性2
             {
                 super(props)
                 console.log(this)
                 this.state = {
-                    isHot: true
+                    isHot: true,
+                    wind: '微风'
                 } // react 官方建议写成对象形式
 
                 // 右边： this 是组件的实例对象， changeweather 放在了prototype 上，
@@ -54,10 +56,20 @@
 
                 // 由于changewether是作为onClick 的回调, 所以不是通过实例 调用的，而是直接调用的
                 // 类中的方法 默认开启了局部的严格模式， 所以changeWeather 中的this 是undefined
-                console.log(this);
+
+                //严重注意！！！ 
+                // 状态必须通过 setState 修改 （ 顺着原型链查找 再 React.Component 里 (继承的父类)）
+                //console.log(this);
+
+                const {isHot} = this.state;
+                // “合并” 的 更新动作 ， 不是替换
+                // 可以看到 wind 没有被更改，而是延用 retain
+                this.setState({isHot: !isHot}) ; // 取反， this：  （顺着原型链查找 再 React.Component 里 (继承的父类)）
+                
             }
 
             // 必有render
+            // render调用几次?  1+n次， 1 是初始化，n 是每次修改状态，react都帮你调用一次
             render(){
                 
                 // 可以 destructing 一下
@@ -67,7 +79,7 @@
 
                 // this.changeWeather 报错原因 见复习 “类中this的方法”， 同理 this.changewweather 顺着原型链找到 这个方法， 交给onclick 作为回调
                 // 点击的时候  是直接调用， 根本就不是 实例对象
-                return <h1 onClick = {this.changeWeather}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'}  </h1>
+                return <h1 onClick = {this.changeWeather}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'} , 风力：{this.state.wind}  </h1>
             }
 
        } 
