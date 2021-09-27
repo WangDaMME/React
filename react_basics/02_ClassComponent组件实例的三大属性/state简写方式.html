@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test"></div>  <!-- 必须要有容器 dom 元素节点 -->
+     
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+       
+       class Weather extends React.Component 
+       {
+            //类中可以直接赋值
+            // a =1; // 含义是 改 Weather 实例对象添加一个属性， 名为 a , 值为1 
+            // let a =1; // 不行 ， 类中 不能直接声明 变量
+
+            // 同理 往Weather 实例对象添加一个属性 叫 state
+            state = {
+                isHot : false,
+                wind: '微风'
+            }
+
+
+            // 构造器 -- 删除
+            // this.changeWeather = this.changeWeather.bind(this); 删除
+
+            // changeWeather(){ }
+            // vs 老的写法， 相当于 放到实例自身， 不会放在原型
+            // changeWeather = function(){  } 还是跟之前一样的问题 没有
+
+            // ！！！写成 箭头函数 :
+            /***
+             * 
+             * 箭头函数 没有自己 的 this，在箭头函数里面使用this 也不会报错， 会向外层找 this 作为 自己的this 使用--- ie. 类的实例对象
+             * **/
+            changeWeather = ()=>{
+                const isHot = this.state.isHot;
+                this.setState({isHot: !isHot})
+            }
+
+            render(){
+                return <h1 onClick = {this.changeWeather}>今天天气很 - {this.state.isHot? '炎热' :'凉爽'} , 风力：{this.state.wind}  </h1>
+            }
+
+       } 
+
+       
+        ReactDOM.render(<Weather/>, document.getElementById("test"))
+
+
+
+    </script>
+
+</body>
+</html>
