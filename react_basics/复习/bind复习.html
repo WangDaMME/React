@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript">
+
+        function demo(){
+            console.log(this); 
+        }
+
+        demo(); // this 是window
+        //bind 返回所创建的新函数 更改this
+        var x = demo.bind({a:1, b:2});
+
+        x();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
