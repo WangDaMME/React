@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        // 影响不是那么紧要
+        /**
+         *  回调函数形式的ref 回调执行次数  -- 不是那么紧要
+            初始化 还是 1次
+            更新时候 有 清空的动作  生成新的函数 就是 先来null, 后 传入 节点
+
+         * 
+         **/
+
+
+
+        class Demo extends React.Component{
+            
+            //定义state 变量
+            state = {isHot: false} 
+
+            showInfo = ()=>{
+                const {input1} = this ; //在this(挂载) 拿
+                alert(input1.value)
+            }
+            
+            changeWeather = ()=>{
+                const {isHot} = this.state;
+                //更新状态
+                this.setState( {isHot: !isHot})
+            }
+
+            //声明 绑定到 class的 ref 函数
+            saveInput = (currentNode) =>{
+
+                this.input1 = currentNode;
+                console.log("@", currentNode);
+            }
+        
+
+            render()
+            {
+                const {isHot} = this.state
+
+                return (
+
+                    <div>
+                        
+                        <h2> 今天天气很 {isHot? "炎热" : "凉爽"} </h2>
+                        
+                        {/* ====================================== */}
+                        
+                        {/* 1. 这就是 内联函数 形式的ref */}
+                        
+                        {/*<input ref = { (currentNode) =>{
+                            this.input1 = currentNode; // 回调形式 的ref函数
+                            console.log("@@@", currentNode);
+                        }}  type = "text"/> */}
+                        {/* ====================================== */}
+
+                        {/* 2. 将 ref 回调函数 定义成 class的绑定函数的方式 ,
+                                (ie.放置在函数自身，不再是个新的函数, 也不会创建新的函数)
+
+                                this.saveInput ： 回调函数， 声明嘛
+
+                                不用写参数， 自己传参数
+                            */} 
+
+                        <input ref = {this.saveInput} type ="text"/>  
+                       
+                        
+                        <button onClick = {this.showInfo} > 点我提示输入的数据</button>
+                        <button onClick = {this.changeWeather} > 点我切换天气</button>
+                       
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>

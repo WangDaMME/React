@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+
+        class Demo extends React.Component{
+            
+            /***
+             * 【回调函数形式的ref】
+             *  1. 先以箭头函数形式 定义一个 函数 ， 回调：等着别人调用
+             *  2. 回调函数的参数 ，取决于 调用者的传参;
+             *     ref={ （a）=>{console.log(a)} }: a 这个参数 正好是 ref 这个属性 所在的节点
+             * 
+             *  3.  ref={(a）=>{this.input1 = a }; //react通过Demo 这个实例 调用render， 发现标签里有 回调函数
+             *      直接触发 回调函数的执行， 并把当前所处的节点 传进 ref (ref={ （a）)
+             * 
+             *      this.input1 = a : 意思是， 把传进的这个节点 放在(挂载)到 组件实例自身上，起了个名字叫input1;
+             *                        这里的this，箭头函数 没有this，向外层找， 找到render ,render this 就是 组件实例对象
+             *      a ：形参
+             *     
+             * */
+            
+            showData = ()=>{
+                // const {input1} = this.refs; 
+                const {input1} = this;  //input1 这回不从refs上取了， 从 实例自身上去 ， 因为挂挂载到实例上
+                
+                alert(input1.value)
+            }
+
+            showData2 = ()=>{
+                const {input2} = this;
+                alert(input2.value)
+            }
+
+
+            render()
+            {
+
+                return (
+
+                    // 回调函数 形式 ref={ (c)=>{this.名字= c}}
+                    <div>
+                        
+                        <input ref={ (currentNode) => {this.input1 = currentNode} } type="text" placeholder="点击按钮提示数据"/>&nbsp;
+                        <button onClick={this.showData}>点击提示左侧的数据</button>&nbsp;
+                        <input ref={ (currentNode) => {this.input2 = currentNode} }  onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
