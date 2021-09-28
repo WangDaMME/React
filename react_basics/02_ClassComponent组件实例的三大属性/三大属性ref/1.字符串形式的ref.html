@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        /***  字符串形式的
+         * ref： 就是打标识，相当于原生js中的 id，(原生调用id 时，需要document.getElementById(“id11”) 形式)， ref 则不用
+                 调用时候 就是 this.ref.key名 就是value
+                 refs: 就是 收集很多 组 ref 标识
+         * 
+         * 
+         **/
+
+
+        // 创建组件
+
+
+        class Demo extends React.Component{
+
+            showData=()=>{
+               
+                // 不写类型 ，是属性 箭头函数 默认捆绑外层bind
+
+                const {input1} = this.refs ; // 解构
+                alert(input1.value) ; //真实节点里的 value 属性
+            }
+
+            showData2=()=>{
+               
+               // 展示右侧 输入框 数据
+
+               const {input2} = this.refs;
+               alert(input2.value)
+           }
+
+
+            render()
+            {
+                
+                // 用ref 为input 打标识， or 也就是 加id 
+
+                //(onClick jsx驼峰写法 = js的onclick)
+
+
+                return (
+                    <div>
+                        
+                        <input ref="input1" type="text" placeholder="点击按钮提示数据"/>&nbsp;
+                        <button onClick={this.showData}>点击提示左侧的数据</button>&nbsp;
+                        <input ref="input2"  onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
