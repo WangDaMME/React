@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <div id="test"></div>  
+     
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        // 批量传递 ： 如果 props 传递有很多 key-value属性 可以用 展开符号
+        //            要求声明的 变量 必须 和 原来传递的同名 ; 
+        // 不可以 eg nm = props.name
+
+        class Person extends React.Component{
+
+            render()
+            {
+                console.log(this)
+                const {name, age, gender} = this.props; // 解构
+
+                return (
+
+                    <ul>
+                        <li>Name: {name}</li>
+                        <li>Age: {age}</li>
+                        <li>Gender: {gender}</li>
+                    </ul>
+                )
+            }
+        }
+
+
+        const p = {name: '老王', age:18, genders: 'M'} // 需要名字对应， eg改成genders就找不到了
+
+        // const p = {name: '老王', age:18, gender: 'M'}
+        ReactDOM.render(<Person {...p}/>, document.getElementById('test')); //react 没有选择器
+        
+        // 另外：{... object} 原生js ... 不能spreading 对象， 因为对象没有实现iterator
+        // 这里是： react 中的特殊用法，也不能随便使用， 只允许 标签中属性的传递 上使用， 其他虽不报错， 但是 为undefined
+    
+    </script>
+
+</body>
+</html>
