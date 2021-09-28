@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+    <div id="test2"></div>  <!-- 必须要有容器 dom 元素节点 -->
+    <div id="test3"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <!-- 引入prop-types, 类型限制库-->
+    <script type= "text/javascript" src="../../js/prop-types.js"></script>
+
+    <script type="text/babel"> 
+       
+        /** props 可以对 要传递的参数进行限制. 
+         * 3种限制： 必要性，默认值， 类型限制
+         * 通过 React.propTypes 关键字 （不允许修改）
+         *          利用 React.PropTypes 属性。 15.00 版本以前， (后来 react 认为 限制性并不是必须， 而且封装PropTypes 过于冗长 放大 prop-types.js 里 外部引用
+         *
+         *  React.defaultProps ： 设置默认值
+         **/ 
+
+         // 【简化版】
+         // 可以放到类里， 因为是给所有实例 加一个 共有的属性， 可以加 static 关键字
+
+       class Person extends React.Component 
+       {
+
+        //=============================================================//
+        static propTypes = {
+            name : PropTypes.string.isRequired, // React.PropTypes.string; 15.0以前，封装在react下
+            age : PropTypes.number ,
+            hobby: PropTypes.string,
+            speak: PropTypes.func
+
+        }
+
+        static defaultProps = {
+            age: 18,
+            hobby:"baksetball"
+        }
+
+        //=============================================================//
+
+
+            render(){
+                console.log(this)
+                return (
+                    // 整体
+                    // 都在组件实例(this)的 props 里
+                    <ul>
+                        <li> name: {this.props.name} </li>
+                        <li> age: {this.props.age} </li>
+                        <li> hobby: {this.props.hobby} </li>
+                    </ul>
+
+                );
+            }
+       }
+
+       // isRequired 限制必要性
+       // 用 “，”隔开
+        
+
+
+        ReactDOM.render(<Person name='tom' speak = {speak}/>, document.getElementById("test1"))
+        ReactDOM.render(<Person name='jerry' age= {19} />, document.getElementById("test2")) // “19” 不对  {19}
+        ReactDOM.render(<Person name='jack' age = {1} hobby ='badminton'/>, document.getElementById("test3")) // 有warning
+
+        function speak(){
+            console.log("speak")
+        }
+
+
+    </script>
+
+</body>
+</html>

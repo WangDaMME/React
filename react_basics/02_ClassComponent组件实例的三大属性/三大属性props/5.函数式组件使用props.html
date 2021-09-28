@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+    <div id="test2"></div>  <!-- 必须要有容器 dom 元素节点 -->
+    <div id="test3"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <!-- 引入prop-types, 类型限制库-->
+    <script type= "text/javascript" src="../../js/prop-types.js"></script>
+
+    <script type="text/babel"> 
+
+        // 函数式 组件使用props
+
+        function Person(props){
+
+            const {name, age , gender} = props; // 解构
+
+            //return 函数是必要的
+            return (
+                <ul>
+                    <li> 姓名: {name} </li>
+                    <li> 年龄: {age} </li>
+                    <li> 性别: {gender} </li>
+                </ul>
+            )
+        }
+
+        // 函数类型限制 -- 只能写在外面
+        Person.propTypes = {
+            name : PropTypes.string.isRequired,
+            age : PropTypes.number,
+            gender: PropTypes.string
+        }
+        Person.defaultProps = {
+            // 默认值
+            gender:"M",
+            age: 1
+        }
+
+
+        ReactDOM.render(<Person name='tom' />, document.getElementById("test1"))
+        ReactDOM.render(<Person name='jerry' age= {19} />, document.getElementById("test2")) // “19” 不对  {19}
+        ReactDOM.render(<Person name='jack' age = {1} hobby ='badminton'/>, document.getElementById("test3")) // 有warning
+
+
+
+
+    </script>
+
+</body>
+</html>
