@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        /**
+         *  【React 中 事件处理】
+         *   1. 通过 onXxx 属性 指定事件处理函数 （注意大小写）
+         *      a. React 使用的是自定义(合成)事件， 而不是使用的原生dom 事件  eg.onClick vs 原生 onclick  --- 为了更好的兼容性
+         *      b. React 中的事件是通过 事件委托方式 处理的 (委托给最外层元素)   -- 这样做 是为了 更高效
+         *         {
+         *              基于 事件冒泡机制   -- li 的事件处理 是在外层 ul 拦截的， 这样就实现了 所有<li>都具有该功能
+         *              eg.  <ul>
+         *                      <li></li>  
+         *                      <li></li>
+         *                   </ul>
+         *          }
+         *  
+         *   2. 通过event.target 得到发生事件的dom 元素对象 ------ 不要过度使用ref
+         *      // !!! 可以省略ref 情况： 发生事件的元素 和 要操作的元素 是同一个 ; react 帮你 传入 event 对象 (ie.发生事件的对象 event.target)
+         *             showDate(event)
+         *      // 下列. blur可以省略ref 是 因为 操作和处理的 都是 input 哪个元素
+         *      //       而 click 不行 因为 event.target 触发的是 button元素，要显示的 是input元素
+         * 
+         * */
+        class Demo extends React.Component
+        {
+            //函数挂载属性
+            myRef = React.createRef();
+            // myRef2 = React.createRef(); {/* onBlur 可以省略 ref */}
+
+            showData = (event)=>
+            {
+                console.log(event.target);  // 是 button元素
+                alert(this.myRef.current.value);
+            }
+
+            showData2 = (event)=>
+            {
+                console.log(event.target);
+                // alert(this.myRef2.current.value);
+                alert(event.target.value)
+            }
+            render(){
+
+                return (
+                    <div>
+                        <input ref = {this.myRef} type="text" placeholder = "点击按钮提示数据"/> &nbsp;
+                        <button onClick = {this.showData}> 点我提示左侧数据 </button> &nbsp;
+                        {/* onBlur 可以省略 ref */}
+                        <input onBlur = {this.showData2} ref={this.myRef2} type="text" placeholder = "失去焦点提示数据"/> 
+
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
