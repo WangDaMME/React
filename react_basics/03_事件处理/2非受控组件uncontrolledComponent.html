@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+        /**
+         *  【非受控组件】 
+         *   非受控组件 - 所有 输入类dom 元素 (eg。 checkbox，input, radio 等)  ---》 现用现取 这种 
+             eg.点击 button 才取 event.value
+         *   Ajax: 最大优势 - 用户无刷新 获取数据，（为了用户体验， 感觉页面整体没有刷新 eg. 否则每次都是在跳的）
+         *        form 提交，会默认引发跳转 ---！！！ 原生js 可以 设置 event.preventDefault() 解决
+         * ·
+         * 
+         * */
+       class Login extends React.Component{
+
+        // form 提交，会默认引发跳转 ---！！！ 原生js 可以 设置 event.preventDefault 解决
+        handleSubmit = (event)=>{ // event 默认传入的
+            event.preventDefault();
+
+
+            const {username, password} = this; 
+
+            //!!!注意 这里是html 节点 ，需要.value
+            alert(`输入的用户名是: ${username.value}, 输入的密码是： ${password.value}`); //模板字符串 里面用 $
+
+
+        }
+         render()
+         {
+            return (
+                // action 提交地址 onSubmit自己的封装, 表单提交时候 调用的回调函数
+                <form action = "https://www.google.com" onSubmit= {this.handleSubmit}>
+                    
+                    {/* name 提交表单 传值时候的key , (回调形式)创建ref 相当于拿id  */}
+                    用户名： <input type="text" ref={ (c)=>{this.username = c}} name="username" /> &nbsp;
+                    密码： <input type="text"   ref={(c)=>{this.password =c }} name="password" />
+                    <button> 登陆 </button>
+
+                </form>
+
+            )
+
+
+         }
+
+       }
+
+        ReactDOM.render(<Login />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
