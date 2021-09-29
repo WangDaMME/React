@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+        /**
+         *  【受控组件】 
+         *   输入类的 dom 元素 (eg。 checkbox，input, radio 等)  --》随着输入，将输入信息 维护到 state 里去， 等用的时候从state 里取  
+                a. 需要初始化 状态 - 语义上更明确
+                b. 比较推荐 - 没有ref （所以 推荐使用 controlled comp, reat官方觉得 ref是individually 的 写多了 也是有效率上的问
+         * 
+         * */
+        
+
+
+       class Login extends React.Component{
+
+
+        // 用state 实现 受控组件
+
+        state = {
+            // 语义上， 实现初始化状态， 要不第一个来了突然就是输入的值
+            username:'',
+            password:""
+        }
+
+        //将用户名保存到state 中
+        saveUsername = (event)=>{
+            //onChange 函数  一变化， event.target.value 就是在变的  → setState
+            //console.log(event.target.value)
+            this.setState({username: event.target.value})
+        }
+
+        //同理， 将pwd保存到state 中
+        savePassword = (event)=>{
+
+            console.log(this.state.password) //会跟着变
+            this.setState({password: event.target.value})
+        }
+
+        handleSubmit = (event)=>{ // event 默认传入的
+            event.preventDefault(); // 关闭 自动跳转页面
+            // const {username, password} = this; 
+            //!!!注意 取用是放在state里  就应该从state里取
+
+            const {username , password} = this.state;
+            //这里不再存的是节点 而是 值 所以不是 username.value
+            alert(`输入的用户名是: ${username}, 输入的密码是： ${password}`); //模板字符串 里面用 $
+
+
+        }
+         render()
+         {
+            return (
+                // action 提交地址 onSubmit自己的封装, 表单提交时候 调用的回调函数
+                <form action = "https://www.google.com" onSubmit= {this.handleSubmit}>
+                    
+                    {/* onChange函数 一变化就有值  用state 维护  不用ref */}
+                    用户名： <input type="text" onChange = {this.saveUsername} name="username" /> &nbsp;
+                    密码： <input type="text"  onChange={this.savePassword} name="password" />
+                    <button> 登陆 </button>
+
+                </form>
+
+            )
+
+
+         }
+
+       }
+
+        ReactDOM.render(<Login />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
