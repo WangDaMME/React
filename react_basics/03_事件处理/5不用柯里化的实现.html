@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>不用柯里化的 实现</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test1"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+        /**
+         *  【不用柯里化的 实现 】 
+
+         *    
+
+         * */
+        
+
+
+       class Login extends React.Component{
+
+        state = {
+            username:'',
+            password:""
+        }
+
+
+        //从render 里 标签 调用onchange 传过来
+        saveFormData(event, dataInputStr) //接收传进来的str
+        {
+            // console.log(this.state[dataInputStr])
+            this.setState( { [dataInputStr] : event.target.value}) //把event对象传了进来 不是 真正的变量
+        }
+       
+
+        handleSubmit = (event)=>{ 
+            event.preventDefault(); 
+            const {username , password} = this.state;
+            alert(`输入的用户名是: ${username}, 输入的密码是： ${password}`); //模板字符串 里面用 $
+        }
+         render()
+         {
+            return (
+                <form action = "https://www.google.com" onSubmit= {this.handleSubmit}>
+                    
+                    {/* 不用柯里化的实现
+
+                        1. onChange 需要1个函数 ()=>{},
+                        2. render 初始化时候 发现onchange 调用 会 帮你传入event
+                        3. 再传个相应的函数名， 调用 自身挂载的方法 this.saveDataForm就好了
+                    */}
+                    用户名： <input type="text" onChange = {(event)=>{ this.saveFormData(event, 'username') }} name="username" /> &nbsp;
+                    密码： <input type="text"  onChange={ (event)=>{ this.saveFormData(event, "password")}} name="password" />
+                    <button> 登陆 </button>
+
+                </form>
+
+            )
+
+
+         }
+
+       }
+
+        ReactDOM.render(<Login />, document.getElementById("test1"))
+    
+
+
+
+    </script>
+
+</body>
+</html>
