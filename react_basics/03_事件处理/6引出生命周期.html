@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引出生命周期</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        class Demo extends React.Component
+        {
+            // 数据驱动 页面的更新
+            state={
+                opacity: 1
+            }
+
+            // 卸载组件
+
+            death = ()=>
+            {
+                // clearInterval(this.timer)
+                ReactDOM.unmountComponentAtNode(document.getElementById("test"))
+            }
+
+
+            // 组件挂载在页面之后调用， 仅调用1次
+
+            componentDidMount(){
+
+                // 不用像 death() 这种是回调函数，()=>{} 绑定要不this 就丢了，  
+                // componentDidMount 和 render 同一级别 都是 Demo new 出来的实例 通过 "."调用 demo.render , demo.componentDidMount
+
+                this.timer = setInterval(  ()=>{
+
+                    // 共用timer 的形式 -- 也可以 通过 willUnmount函数
+                    // 获取原来状态
+                    let {opacity} = this.state;
+                    opacity -=0.1; 
+                    // 设置新的透明度
+                    if(opacity<=0) opacity=1; //js 世界里 小数操作不是很精确 写成===0 不一定能等到0 
+                    this.setState({opacity: opacity})
+                }, 200) ; 
+
+            }
+
+            //componentWillUnMount: 组件 将要 卸载的时候 调用
+            // 通过该函数 清除定时器
+            componentWillUnmount(){
+                clearInterval(this.timer)
+            }
+
+
+            /***!!! 千万千万千万 不要 在render 里用 循环定时器(setInterval) ***/
+
+            /**
+             * -- 会引发 无限制递归
+             *  render 调用次数是 1+n 次 ，第一次初始化1下，然后 state 改变 会自动 调render
+             *  第一次调render 开了个循环定时器， 每隔 200ms 执行的函数， 又包含者着 开启定时器和更改状态 ---》 所以render 调用次数 指数形式增长
+             * */
+
+
+             // render: 初始化 渲染 和 状态更新之后
+            render(){
+
+                console.log("render")
+                // setInterval(  ()=>{
+                //     // 获取原来状态
+                //     let {opacity} = this.state;
+                //     opacity -=0.1; 
+                //     // 设置新的透明度
+                //     if(opacity<=0) opacity=1; //js 世界里 小数操作不是很精确 写成===0 不一定能等到0 
+                //     this.setState({opacity: opacity})
+                // }, 200) ; //200ms
+
+                return (
+                    <div>
+                        <h2 style={{opacity: this.state.opacity}}>React学不会怎么办？</h2>
+                        <button onClick = {this.death}>不学了</button>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo />, document.getElementById("test"))
+
+
+    </script>
+
+</body>
+</html>
