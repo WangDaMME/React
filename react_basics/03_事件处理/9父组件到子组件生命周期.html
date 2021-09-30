@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引出生命周期</title>
+</head>
+<body>
+    <!-- 准备好有一个容器-->
+    <div id="test"></div>  <!-- 必须要有容器 dom 元素节点 -->
+
+
+
+    <!-- 引入react 核心库-->
+    <script type= "text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom.js 扩展库，用于支持react 操作dom-->
+    <script type= "text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel, 用于将jsx 转换为js-->
+    <script type= "text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+
+        // A 是B 的父组件, A 中包裹B, 用到B的结构
+
+        // A 传递 变量给B, -- 通过 props
+        // A 传递信息给B, 让B做展示
+
+        class A extends React.Component
+        {
+            state = {
+                carName : "Mercedes-Benz"
+            }
+
+            handleChange=()=>
+            {
+                //按钮的回调函数, this 绑定
+                const {carName} = this.state; // 从state 中拿
+                this.setState({carName: 'Porsche'})
+            }
+
+            render(){
+                return(
+                    <div>
+                        <div>A</div>
+                        {/* 从A到B 当然是 获取 A 的state啦 , 传到 B的 props里*/}
+                        <B carName={this.state.carName}/>
+                        <button onClick = {this.handleChange}>A组件里: 换车</button>
+                    </div>
+                )
+            }
+        }
+        
+        class B extends React.Component
+        {
+
+            // 组件将要接收新的props的钩子
+            componentWillReceiveProps(props){
+                console.log(props)
+
+                console.log("B---componentWillReceiveProps")
+            }
+
+            render(){
+
+                
+                return(
+                    
+                    <div>
+                        {/* 从A到B 当然是 获取 A 的state啦 , 传到 B的 props里*/}
+
+                        <div>我是B组件, 接收到的车是:{this.props.carName}</div>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<A />, document.getElementById("test"))
+
+
+    </script>
+
+</body>
+</html>
