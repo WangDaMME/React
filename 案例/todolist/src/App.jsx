@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import List from "./components/List";
 
 import "./App.css"
+import { element } from "prop-types";
 
 /**
  * Header 和 List 是同级别的兄弟， 给 Header中 input框传递state， 暂时的知识，还实现不了 传递给 同级别.
@@ -11,6 +12,8 @@ import "./App.css"
  * 
  * 
  */
+
+// 状态在哪里， 操作状态的方法 就在哪里
 export default class App extends Component
 {
  
@@ -38,6 +41,58 @@ export default class App extends Component
     this.setState({todos:  todos2})
   }
 
+
+  //【祖孙关系】 从Item 里得到有没有勾选
+  //     用于更新一个todo对象
+  updateToDo = (id, isDone)=>{ //更改的人 是谁， 到底完成没完成
+
+    // 获取状态中的todos, 返回新的todos
+    const {todos} = this.state;
+   const todos2 =  todos.map( (element) =>{
+      if(element.id === id) 
+      {
+        return {...element, isDone} //就是原来 原封不动， 只改isDone
+      }
+      else return element;
+    }) 
+
+    this.setState({todos: todos2})
+
+  }
+
+  //删除一个todo
+  deleteToDo = (id) =>{
+    const {todos} = this.state;
+    //删除指定id的todo 对象
+    const todos2 = todos.filter( (element) =>{
+      return element.id !==id; // 不是相同id 的给人家 返回， ==id 的 过滤掉
+    })
+
+    this.setState( { todos : todos2})
+  }
+
+  //全选的 todo
+  checkAllToDo = (isDone) =>{
+    const {todos} = this.state;
+
+    const todos2 = todos.map( (element) =>{
+      return {...element, isDone};//把所有isDone 属性改为true  设置成true 就是 只能全选， 不能全取消
+    })
+
+    this.setState( { todos : todos2}) // 更新状态
+  }
+
+  //清除所有已经完成的 todo_items
+  clearAllDoneToDo = ()=>{
+
+    const {todos} = this.state;
+
+    const todos2 = todos.filter( (element)=>{
+      return !element.isDone; //===false; //清除 已经完成的
+    })
+    this.setState( { todos : todos2}) // 更新状态
+
+  }
     
   render()
   {
@@ -47,8 +102,8 @@ export default class App extends Component
       <div className="todo-container">
         <div className="todo-wrap">
           <Header addToDo={this.addToDo}/> {/** 通过props 传递函数 等着被调用 */}
-          <List todos = {todos} /> {/** props 接着 是根据第一个 todos, eg. a ={1},传了个1 ，是要接变量名a的 */}
-          <Footer/>
+          <List   todos = {todos}   updateToDo = {this.updateToDo}  deleteToDo = {this.deleteToDo}/> {/** props 接着 是根据第一个 todos, eg. a ={1},传了个1 ，是要接变量名a的 ;   this 绑定*/}
+          <Footer todos = {todos} checkAllToDo ={this.checkAllToDo} clearAllDoneToDo = {this.clearAllDoneToDo}/>
         </div>
     </div>
     )
