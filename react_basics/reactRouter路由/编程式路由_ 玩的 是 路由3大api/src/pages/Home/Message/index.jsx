@@ -30,12 +30,17 @@ export default class Message extends Component {
 
 	}
 
-	back =()=>{
-		this.props.history.goBack()
-	}
-	forward =()=>{
-		this.props.history.goForward()
-	}
+	// back =()=>{
+	// 	this.props.history.goBack()
+	// }
+	// forward =()=>{
+	// 	this.props.history.goForward()
+	// }
+
+	// go=()=>{
+	// 	this.props.history.go(2);//往前前进2位
+	// 	// -2 是往后退2 步骤
+	// }
 
 	render() {
 		return (
@@ -64,8 +69,10 @@ s									&nbsp;<button onClick={()=>this.showReplace(messageItem.id, messageIte
 				{/* 向路由组件 接收 params 参数*/}
 				<Route path="/home/message/detail/:id/:title" component={Detail} />
 				
-				<button onClick = {this.back}>Back</button>
+				{/* <button onClick = {this.back}>Back</button>
 				<button onClick = {this.forward}>Forward</button>
+				<button onClick = {this.go}>一下往前 前进2步</button> */}
+
 			</div>
 		)
 	}

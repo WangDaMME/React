@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 export default class News extends Component {
+
 	// News 是路由组件 一加载就跳转
 	// componentDidMount(){
 	// 	setTimeout( ()=>{
