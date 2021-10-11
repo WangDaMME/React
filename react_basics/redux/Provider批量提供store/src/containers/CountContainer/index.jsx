@@ -59,7 +59,7 @@ function mapDispatchToProps(dispatch){
 // mapDispatchToProps 是一个函数， 【精简版】 可以写成一个对象
 export default connect(
     //两个参数
-    state =>({count,state}),//对象
+    state =>({count:state}),//对象
     //mapStateToSateDispatch 可以 写成对象
     // 简写方式 只需 要action 对象， 他会帮你 自动dispatch
     {
